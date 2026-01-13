@@ -1,0 +1,74 @@
+{
+  "model": {
+    "name": "ConvLSTM",
+    "input_channels": 3,
+    "hidden_channels": [32, 16],
+    "kernel_size": [3, 3],
+    "num_layers": 2,
+    "output_channels": 1,
+    "activation": "tanh",
+    "return_sequences": false
+  },
+  "data": {
+    "region": {
+      "lon_min": 100.0,
+      "lon_max": 115.0,
+      "lat_min": 25.0,
+      "lat_max": 45.0
+    },
+    "time_range": {
+      "start": "2000-01-01",
+      "end": "2025-12-31"
+    },
+    "magnitude_threshold": 4.0,
+    "grid_size": 1.0,
+    "lookback": 12,
+    "horizon": 1,
+    "features": ["normalized_freq", "max_magnitude", "log_energy"]
+  },
+  "training": {
+    "epochs": 100,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-5,
+    "optimizer": "Adam",
+    "loss": "weighted_bce",
+    "pos_weight": 83,
+    "scheduler": {
+      "type": "ReduceLROnPlateau",
+      "mode": "max",
+      "metric": "val_pr_auc",
+      "patience": 10,
+      "factor": 0.5,
+      "min_lr": 1e-6
+    },
+    "early_stopping": {
+      "patience": 20,
+      "metric": "val_pr_auc",
+      "mode": "max"
+    }
+  },
+  "evaluation": {
+    "metrics": ["roc_auc", "pr_auc", "brier_score", "log_loss", "ece", "mce"],
+    "bootstrap": {
+      "n_iterations": 1000,
+      "method": "monthly_block",
+      "confidence_level": 0.95,
+      "seed": 42
+    },
+    "calibration": {
+      "methods": ["platt", "isotonic", "temperature"],
+      "n_bins": 10
+    },
+    "threshold": {
+      "validation_metric": "f1",
+      "optimization_method": "grid_search",
+      "candidates": [0.5, 0.7, 0.9, 0.95, 0.99]
+    }
+  },
+  "reproducibility": {
+    "seed": 42,
+    "deterministic": true,
+    "cudnn_benchmark": false
+  }
+}

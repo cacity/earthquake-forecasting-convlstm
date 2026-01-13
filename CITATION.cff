@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Grid-Based Earthquake Forecasting with ConvLSTM"
+abstract: >-
+  A complete, reproducible framework for spatiotemporal earthquake forecasting
+  using Convolutional Long Short-Term Memory (ConvLSTM) networks. This code
+  implements the methods described in the IEEE Access paper "Grid-Based Monthly
+  Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks:
+  A Reproducible Framework for Southwestern China".
+authors:
+  - family-names: "Your Last Name"
+    given-names: "Your First Name"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+    affiliation: "Your Institution"
+    email: "your.email@example.com"
+  # Add co-authors here
+version: 1.0.0
+date-released: "2026-01-XX"
+doi: 10.5281/zenodo.XXXXXXX
+repository-code: "https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm"
+license: MIT
+keywords:
+  - earthquake forecasting
+  - deep learning
+  - ConvLSTM
+  - spatiotemporal prediction
+  - seismology
+  - machine learning
+  - grid-based forecasting
+  - probability calibration
+  - reproducible research
+references:
+  - type: article
+    title: "Grid-Based Monthly Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks: A Reproducible Framework for Southwestern China"
+    authors:
+      - family-names: "Your Last Name"
+        given-names: "Your First Name"
+    journal: "IEEE Access"
+    year: 2026
+    volume: XX
+    start: XXXXX
+    end: XXXXX
+    doi: "10.1109/ACCESS.2026.XXXXXXX"
