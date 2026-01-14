@@ -17,7 +17,7 @@ authors:
   # Add co-authors here
 version: 1.0.0
 date-released: "2026-01-XX"
-doi: 10.5281/zenodo.XXXXXXX
+doi:10.5281/zenodo.18241652
 repository-code: "https://github.com/cacity/earthquake-forecasting-convlstm"
 license: MIT
 keywords:
@@ -34,11 +34,11 @@ references:
   - type: article
     title: "Grid-Based Monthly Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks: A Reproducible Framework for Southwestern China"
     authors:
-      - family-names: "Your Last Name"
-        given-names: "Your First Name"
+      - family-names: 'Feng'
+        given-names: 'Gao'
     journal: "IEEE Access"
     year: 2026
     volume: XX
     start: XXXXX
     end: XXXXX
-    doi: "10.1109/ACCESS.2026.XXXXXXX"
+    doi: "10.5281/zenodo.18241652"
