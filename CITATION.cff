@@ -9,16 +9,16 @@ abstract: >-
   Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks:
   A Reproducible Framework for Southwestern China".
 authors:
-  - family-names: "Your Last Name"
-    given-names: "Your First Name"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-    affiliation: "Your Institution"
-    email: "your.email@example.com"
+  - given-names: 'Feng'
+    family-names: 'Gao'
+    email: 'gf7823332@gmail.com'
+    affiliation: 'Heilongjiang Earthquake Agency'
+    orcid: 'https://orcid.org/0009-0005-8696-3178'
   # Add co-authors here
 version: 1.0.0
 date-released: "2026-01-XX"
 doi: 10.5281/zenodo.XXXXXXX
-repository-code: "https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm"
+repository-code: "https://github.com/cacity/earthquake-forecasting-convlstm"
 license: MIT
 keywords:
   - earthquake forecasting
