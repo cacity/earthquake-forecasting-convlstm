@@ -288,7 +288,7 @@ For the code repository:
   publisher={Zenodo},
   version={v1.0.0},
   doi={10.5281/zenodo.XXXXXXX},
-  url={https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm}
+  url={https://github.com/cacity/earthquake-forecasting-convlstm}
 }
 ```
 
@@ -316,8 +316,8 @@ flake8 src/ scripts/
 
 ## Support
 
-- **Issues**: Please use the [GitHub Issues](https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm/issues) tracker
-- **Email**: your.email@example.com
+- **Issues**: Please use the [GitHub Issues](https://github.com/cacity/earthquake-forecasting-convlstm/issues) tracker
+- **Email**: gf7823332@gmail.com
 
 ## Acknowledgments
 
@@ -329,7 +329,7 @@ We thank:
 
 ## Changelog
 
-### Version 1.0.0 (2026-01-XX)
+### Version 1.0.0 (2026-01-14)
 - Initial release
 - Code accompanying IEEE Access publication
 - Includes all experiments and figures from the paper
