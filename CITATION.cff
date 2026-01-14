@@ -16,8 +16,8 @@ authors:
     orcid: 'https://orcid.org/0009-0005-8696-3178'
   # Add co-authors here
 version: 1.0.0
-date-released: "2026-01-XX"
-doi:10.5281/zenodo.18241652
+date-released: "2026-01-14"
+doi: "10.5281/zenodo.18241652"
 repository-code: "https://github.com/cacity/earthquake-forecasting-convlstm"
 license: MIT
 keywords:
