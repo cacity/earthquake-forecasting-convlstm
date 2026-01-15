@@ -1,6 +1,6 @@
 # Grid-Based Earthquake Forecasting with ConvLSTM
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18241723.svg)](https://doi.org/10.5281/zenodo.18241723)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Official code repository for**: "Grid-Based Monthly Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks: A Reproducible Framework for Southwestern China"
