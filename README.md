@@ -3,9 +3,9 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18241723.svg)](https://doi.org/10.5281/zenodo.18241723)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Official code repository for**: "Grid-Based Monthly Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks: A Reproducible Framework for Southwestern China"
+**Official code repository for**: "Monthly Grid-Based Earthquake Probability Forecasting in Southwestern China Using ConvLSTM"
 
-Published in: *IEEE Access* (2026)
+Manuscript status: submitted to *Earth and Planetary Physics (EPS)*.
 
 ## Overview
 
@@ -65,7 +65,7 @@ On 36-month test set (2023-2025):
 
 ```bash
 # Clone repository
-git clone https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm.git
+git clone https://github.com/cacity/earthquake-forecasting-convlstm.git
 cd earthquake-forecasting-convlstm
 
 # Create virtual environment
@@ -267,27 +267,24 @@ The repository includes implementations of:
 If you use this code in your research, please cite:
 
 ```bibtex
-@article{your2026earthquake,
-  title={Grid-Based Monthly Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks: A Reproducible Framework for Southwestern China},
-  author={Your Name and Coauthors},
-  journal={IEEE Access},
+@article{gao2026monthly,
+  title={Monthly Grid-Based Earthquake Probability Forecasting in Southwestern China Using ConvLSTM},
+  author={Gao, Feng and Li, Mei and Li, Yongsheng and Liu, Changsheng and Shi, Wei},
   year={2026},
-  volume={XX},
-  pages={XXXXX--XXXXX},
-  doi={10.1109/ACCESS.2026.XXXXXXX}
+  note={Submitted to Earth and Planetary Physics (under review)}
 }
 ```
 
 For the code repository:
 
 ```bibtex
-@software{your2026code,
-  author={Your Name},
-  title={earthquake-forecasting-convlstm: Grid-Based Earthquake Forecasting},
+@software{gao2026eqgrid,
+  author={Gao, Feng and Li, Mei and Li, Yongsheng and Liu, Changsheng and Shi, Wei},
+  title={eqgrid: Grid-Based Earthquake Forecasting Package},
   year={2026},
   publisher={Zenodo},
-  version={v1.0.0},
-  doi={10.5281/zenodo.XXXXXXX},
+  version={1.0.0},
+  doi={10.5281/zenodo.18241723},
   url={https://github.com/cacity/earthquake-forecasting-convlstm}
 }
 ```
@@ -317,7 +314,7 @@ flake8 src/ scripts/
 ## Support
 
 - **Issues**: Please use the [GitHub Issues](https://github.com/cacity/earthquake-forecasting-convlstm/issues) tracker
-- **Email**: gf7823332@gmail.com
+- **Email**: stark_fng@163.com
 
 ## Acknowledgments
 
@@ -331,7 +328,7 @@ We thank:
 
 ### Version 1.0.0 (2026-01-14)
 - Initial release
-- Code accompanying IEEE Access publication
+- Code accompanying the EPS submission manuscript
 - Includes all experiments and figures from the paper
 
 ---

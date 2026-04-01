@@ -1,6 +1,6 @@
 # Reproducibility Guide
 
-This document provides detailed instructions for reproducing all results from the IEEE Access paper.
+This document provides detailed instructions for reproducing the results and figures associated with the EPS submission manuscript.
 
 ## Table of Contents
 
@@ -295,8 +295,8 @@ python scripts/generate_validation_logits.py \
 ## Contact
 
 If you encounter issues reproducing results:
-1. Check [GitHub Issues](https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm/issues)
-2. Email: your.email@example.com
+1. Check [GitHub Issues](https://github.com/cacity/earthquake-forecasting-convlstm/issues)
+2. Email: stark_fng@163.com
 
 ## Computational Resources
 

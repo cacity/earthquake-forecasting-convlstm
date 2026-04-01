@@ -1,44 +1,61 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: >-
+  If you use this software, please cite the software record below. If you discuss
+  the research results, also cite the accompanying manuscript listed as the
+  preferred citation.
 type: software
-title: "Grid-Based Earthquake Forecasting with ConvLSTM"
+title: "eqgrid: Grid-Based Earthquake Forecasting Package"
 abstract: >-
-  A complete, reproducible framework for spatiotemporal earthquake forecasting
-  using Convolutional Long Short-Term Memory (ConvLSTM) networks. This code
-  implements the methods described in the IEEE Access paper "Grid-Based Monthly
-  Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks:
-  A Reproducible Framework for Southwestern China".
+  eqgrid is an open-source, reproducible package for grid-based monthly
+  earthquake probability forecasting. It covers catalog download,
+  deduplication, tensor construction, sliding-window sample generation,
+  chronological train/validation/test splitting, ConvLSTM and CNN-based model
+  training, evaluation, calibration, and figure generation for manuscript
+  workflows.
 authors:
-  - given-names: 'Feng'
-    family-names: 'Gao'
-    email: 'gf7823332@gmail.com'
-    affiliation: 'Heilongjiang Earthquake Agency'
-    orcid: 'https://orcid.org/0009-0005-8696-3178'
-  # Add co-authors here
-version: 1.0.0
+  - given-names: "Feng"
+    family-names: "Gao"
+    email: "stark_fng@163.com"
+    affiliation: "Heilongjiang Earthquake Agency; Heilongjiang Deep Seismic and Volcanic Field Scientific Observation and Research Station"
+    orcid: "https://orcid.org/0009-0005-8696-3178"
+  - given-names: "Mei"
+    family-names: "Li"
+    affiliation: "Institute of Earthquake Forecasting, China Earthquake Administration"
+  - given-names: "Yongsheng"
+    family-names: "Li"
+    affiliation: "Heilongjiang Earthquake Agency"
+  - given-names: "Changsheng"
+    family-names: "Liu"
+    affiliation: "Heilongjiang Earthquake Agency"
+  - given-names: "Wei"
+    family-names: "Shi"
+    affiliation: "Heilongjiang Earthquake Agency"
+version: "1.0.0"
 date-released: "2026-01-14"
-doi: "10.5281/zenodo.18241652"
+doi: "10.5281/zenodo.18241723"
 repository-code: "https://github.com/cacity/earthquake-forecasting-convlstm"
-license: MIT
+license: "MIT"
 keywords:
   - earthquake forecasting
-  - deep learning
-  - ConvLSTM
-  - spatiotemporal prediction
-  - seismology
-  - machine learning
+  - monthly forecasting
   - grid-based forecasting
+  - ConvLSTM
+  - spatiotemporal deep learning
+  - seismicity
   - probability calibration
   - reproducible research
-references:
-  - type: article
-    title: "Grid-Based Monthly Earthquake Forecasting Using Convolutional Long Short-Term Memory Networks: A Reproducible Framework for Southwestern China"
-    authors:
-      - family-names: 'Feng'
-        given-names: 'Gao'
-    journal: "IEEE Access"
-    year: 2026
-    volume: XX
-    start: XXXXX
-    end: XXXXX
-    doi: "10.5281/zenodo.18241652"
+preferred-citation:
+  type: article
+  title: "Monthly Grid-Based Earthquake Probability Forecasting in Southwestern China Using ConvLSTM"
+  authors:
+    - given-names: "Feng"
+      family-names: "Gao"
+    - given-names: "Mei"
+      family-names: "Li"
+    - given-names: "Yongsheng"
+      family-names: "Li"
+    - given-names: "Changsheng"
+      family-names: "Liu"
+    - given-names: "Wei"
+      family-names: "Shi"
+  year: 2026

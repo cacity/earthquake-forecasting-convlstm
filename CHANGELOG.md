@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release accompanying IEEE Access publication
+- Initial release accompanying the EPS submission manuscript
 - Complete ConvLSTM implementation for earthquake forecasting
 - End-to-end pipeline from data download to evaluation
 - Comprehensive evaluation framework:
@@ -67,4 +67,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
-- **v1.0.0** (2026-01-XX): Initial public release with IEEE Access paper
+- **v1.0.0** (2026-01-XX): Initial public release for the EPS submission manuscript

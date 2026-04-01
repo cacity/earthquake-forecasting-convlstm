@@ -1,7 +1,7 @@
 """
 Comprehensive evaluation script for earthquake forecasting models.
 
-This script runs all evaluations needed for the IEEE Access paper:
+This script runs the evaluations needed for the EPS submission manuscript:
 1. Bootstrap confidence intervals for metrics
 2. Compare multiple loss functions
 3. Compare multiple calibration methods

@@ -99,8 +99,8 @@ python -m eqgrid.build_tensors --catalog data/raw/catalog.csv ...
 
 ## Support
 
-- **Issues**: https://github.com/YOUR_USERNAME/earthquake-forecasting-convlstm/issues
-- **Email**: your.email@example.com
+- **Issues**: https://github.com/cacity/earthquake-forecasting-convlstm/issues
+- **Email**: stark_fng@163.com
 
 ## Contributing
 
