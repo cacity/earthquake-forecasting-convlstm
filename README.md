@@ -179,8 +179,10 @@ If you use this code, cite this repository and the accompanying manuscript:
 ```bibtex
 @software{gao_eqgrid_2026,
   author = {Gao, Feng and Li, Mei and Li, Yongsheng and Liu, Shuang and Liu, Changsheng},
-  title = {eqgrid: Monthly Gridded Earthquake Forecasting Code},
+  title = {eqgrid: Grid-Based Earthquake Forecasting Package},
   year = {2026},
+  version = {V2.0.0},
+  doi = {10.5281/zenodo.20926491},
   url = {https://github.com/cacity/earthquake-forecasting-convlstm}
 }
 ```
