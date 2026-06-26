@@ -207,9 +207,9 @@ def build_tensors(
 
     count_norm = np.clip(count, 0.0, config.count_clip) / float(config.count_clip)
     max_mag_norm = max_mag / float(config.mag_scale)
-    sum_energy_norm = np.log1p(sum_energy).astype(np.float32)
+    log_energy = np.log1p(sum_energy).astype(np.float32)
 
-    X = np.stack([count_norm, max_mag_norm, sum_energy_norm], axis=1).astype(np.float32)
+    X = np.stack([count_norm, max_mag_norm, log_energy], axis=1).astype(np.float32)
     return X, Y
 
 

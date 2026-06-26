@@ -11,8 +11,8 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="eqgrid",
-    version="1.0.0",
-    description="Grid-based earthquake forecasting with ConvLSTM",
+    version="1.1.0",
+    description="Monthly gridded earthquake forecasting benchmarks with ConvLSTM and aftershock-decay baselines",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Feng Gao",
@@ -22,7 +22,7 @@ setup(
         "Bug Tracker": "https://github.com/cacity/earthquake-forecasting-convlstm/issues",
         "Documentation": "https://github.com/cacity/earthquake-forecasting-convlstm",
         "Source Code": "https://github.com/cacity/earthquake-forecasting-convlstm",
-        "Manuscript": "Submitted to Earth and Planetary Physics (under review)",
+        "Manuscript": "Submitted to Seismological Research Letters",
     },
     license="MIT",
     packages=find_packages(where="src"),
@@ -63,5 +63,5 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
     ],
-    keywords="earthquake forecasting deep-learning convlstm spatiotemporal seismology",
+    keywords="earthquake forecasting convlstm gridded-seismicity aftershock-decay benchmark seismology",
 )

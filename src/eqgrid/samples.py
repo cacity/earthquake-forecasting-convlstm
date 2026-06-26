@@ -23,10 +23,10 @@ def make_samples(
     - X is aligned to time bins: X[t] uses events aggregated inside bin t.
     - Each sample i predicts a target bin t_target that is strictly AFTER the last input bin.
 
-    For lookback=L and horizon=H:
+    For lookback=L and forecast horizon h:
     - input bins:  [t0-L, ..., t0-1]  (length L)
-    - target bin:  t_target = t0 + (H - 1)
-      - H=1 means "next bin" relative to the last observed bin.
+    - target bin:  t_target = t0 + (h - 1)
+      - h=1 means "next bin" relative to the last observed bin.
     - TS records bins[t_target].
     """
     if X.ndim != 4:
@@ -38,11 +38,11 @@ def make_samples(
 
     T = X.shape[0]
     L = int(config.lookback)
-    H = int(config.horizon)
-    if L <= 0 or H <= 0:
+    horizon = int(config.horizon)
+    if L <= 0 or horizon <= 0:
         raise ValueError("lookback/horizon must be positive")
 
-    n = T - (L + H - 1)
+    n = T - (L + horizon - 1)
     if n <= 0:
         raise ValueError("not enough time bins for given lookback/horizon")
 
@@ -52,7 +52,7 @@ def make_samples(
 
     for i in range(n):
         t0 = i + L
-        t1 = t0 + H - 1
+        t1 = t0 + horizon - 1
         if t1 <= (t0 - 1):
             raise RuntimeError("invalid alignment: target must be after last input bin")
         xs[i] = X[t0 - L : t0]

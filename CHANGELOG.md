@@ -1,70 +1,29 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented here.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.1.0] - 2026-06-26
 
-## [1.0.0] - 2026-01-XX
+### Changed
+
+- Updated the public repository to match the current SRL-targeted benchmark manuscript.
+- Switched the documented workflow from the older USGS three-channel example to the CENC ten-channel Southwestern China workflow.
+- Added public preprocessing support for the corrected depth-filtered CENC workflow through `scripts/build_china_depth_filtered_tensors.py`.
+- Added channel-ablation helper scripts for count-only and activity-channel comparisons.
+- Updated README, reproducibility notes, citation metadata, package metadata, and default configuration.
+- Clarified that raw catalogs, processed tensors, model checkpoints, prediction arrays, Word files, and evaluation outputs are not distributed through GitHub.
 
 ### Added
 
-- Initial release accompanying the EPS submission manuscript
-- Complete ConvLSTM implementation for earthquake forecasting
-- End-to-end pipeline from data download to evaluation
-- Comprehensive evaluation framework:
-  - Bootstrap confidence intervals (monthly block resampling)
-  - Paired significance tests
-  - Probability calibration (Platt, Isotonic, Temperature)
-  - Multiple baselines (Historical Rate, Kernel Density, Persistence, CNN-only)
-- Visualization scripts for all paper figures
-- Reproducibility documentation and example scripts
-- CITATION.cff for Zenodo integration
-- MIT License
+- `src/eqgrid/tensors_enhanced.py` for ten-channel feature construction.
+- `src/eqgrid/build_tensors_chinese.py` and `src/eqgrid/build_tensors_chinese_enhanced.py`.
+- `src/eqgrid/chinese_catalog.py` for local CENC-format catalog parsing.
+- `src/eqgrid/etas_features.py` and updated DAR baseline support.
 
-### Core Modules
+## [1.0.0] - 2026-01-14
 
-- `src/eqgrid/download.py` - USGS catalog download
-- `src/eqgrid/build_tensors.py` - Feature engineering and data preprocessing
-- `src/eqgrid/models/convlstm.py` - Main ConvLSTM architecture
-- `src/eqgrid/train.py` - Training loop with early stopping
-- `src/eqgrid/evaluation.py` - Metrics, calibration, statistical tests
-- `src/eqgrid/baselines.py` - Baseline forecasting methods
+### Added
 
-### Scripts
-
-- `run_training.py` - Main training script
-- `scripts/fix_paper_metrics_unified.py` - Reproduce paper Tables I & II
-- `scripts/run_comprehensive_evaluation.py` - Full evaluation pipeline
-- `scripts/plot_*.py` - Figure generation scripts
-- `examples/quickstart_example.py` - Tutorial example
-
-### Documentation
-
-- `README.md` - Main documentation
-- `docs/REPRODUCIBILITY.md` - Step-by-step reproduction guide
-- `CITATION.cff` - Citation metadata for Zenodo
-- `LICENSE` - MIT License
-
-### Configuration
-
-- `configs/convlstm_default.json` - Default model configuration
-- `requirements.txt` - Python dependencies
-- `setup.py` - Package installation script
-
-## [Unreleased]
-
-### Planned
-
-- Jupyter notebook tutorials
-- Pre-trained model weights
-- Docker container for reproducibility
-- Extended to other regions (California, Japan, etc.)
-- Real-time forecasting interface
-- Web-based visualization dashboard
-
----
-
-## Version History
-
-- **v1.0.0** (2026-01-XX): Initial public release for the EPS submission manuscript
+- Initial public code release for monthly gridded ConvLSTM earthquake forecasting.
+- Core `eqgrid` package with tensor construction, sample generation, chronological splits, ConvLSTM training, baselines, evaluation, and calibration utilities.
+- MIT License and citation metadata.

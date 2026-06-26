@@ -133,6 +133,116 @@ def compute_brier_skill_score(y_true: np.ndarray,
     return 1.0 - (bs_model / bs_ref)
 
 
+def select_optimal_threshold_on_validation(y_val: np.ndarray,
+                                           y_score_val: np.ndarray,
+                                           threshold_grid: np.ndarray = None,
+                                           metric: str = 'f1') -> Dict[str, Any]:
+    """
+    Select optimal threshold on validation set by maximizing a metric.
+
+    Args:
+        y_val: Validation set true labels
+        y_score_val: Validation set predicted scores
+        threshold_grid: Array of thresholds to try (default: 0.01 to 0.99, step 0.01)
+        metric: Metric to maximize ('f1', 'precision', 'recall')
+
+    Returns:
+        Dictionary with:
+        - 'optimal_threshold': Selected threshold
+        - 'val_f1': Validation F1 at optimal threshold
+        - 'val_precision': Validation precision at optimal threshold
+        - 'val_recall': Validation recall at optimal threshold
+        - 'threshold_grid': Array of all tested thresholds
+        - 'f1_scores': F1 scores for all thresholds
+    """
+    if threshold_grid is None:
+        threshold_grid = np.arange(0.01, 1.00, 0.01)
+
+    y_val = y_val.reshape(-1)
+    y_score_val = y_score_val.reshape(-1)
+
+    f1_scores = []
+    precision_scores = []
+    recall_scores = []
+
+    for thresh in threshold_grid:
+        y_pred = (y_score_val >= thresh).astype(int)
+
+        tp = np.sum((y_pred == 1) & (y_val == 1))
+        fp = np.sum((y_pred == 1) & (y_val == 0))
+        fn = np.sum((y_pred == 0) & (y_val == 1))
+
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+
+        f1_scores.append(f1)
+        precision_scores.append(precision)
+        recall_scores.append(recall)
+
+    f1_scores = np.array(f1_scores)
+    precision_scores = np.array(precision_scores)
+    recall_scores = np.array(recall_scores)
+
+    # Select based on metric
+    if metric == 'f1':
+        optimal_idx = np.argmax(f1_scores)
+    elif metric == 'precision':
+        optimal_idx = np.argmax(precision_scores)
+    elif metric == 'recall':
+        optimal_idx = np.argmax(recall_scores)
+    else:
+        raise ValueError(f"Unknown metric: {metric}")
+
+    optimal_threshold = float(threshold_grid[optimal_idx])
+
+    return {
+        'optimal_threshold': optimal_threshold,
+        'val_f1': float(f1_scores[optimal_idx]),
+        'val_precision': float(precision_scores[optimal_idx]),
+        'val_recall': float(recall_scores[optimal_idx]),
+        'threshold_grid': threshold_grid,
+        'f1_scores': f1_scores,
+        'precision_scores': precision_scores,
+        'recall_scores': recall_scores
+    }
+
+
+def evaluate_at_fixed_threshold(y_test: np.ndarray,
+                                y_score_test: np.ndarray,
+                                threshold: float) -> Dict[str, float]:
+    """
+    Evaluate precision, recall, and F1 at a fixed threshold on test set.
+
+    Args:
+        y_test: Test set true labels
+        y_score_test: Test set predicted scores
+        threshold: Fixed threshold (selected on validation set)
+
+    Returns:
+        Dictionary with 'test_f1', 'test_precision', 'test_recall', 'threshold'
+    """
+    y_test = y_test.reshape(-1)
+    y_score_test = y_score_test.reshape(-1)
+
+    y_pred = (y_score_test >= threshold).astype(int)
+
+    tp = np.sum((y_pred == 1) & (y_test == 1))
+    fp = np.sum((y_pred == 1) & (y_test == 0))
+    fn = np.sum((y_pred == 0) & (y_test == 1))
+
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+
+    return {
+        'threshold': float(threshold),
+        'test_f1': float(f1),
+        'test_precision': float(precision),
+        'test_recall': float(recall)
+    }
+
+
 # ============================================================================
 # Bootstrap Confidence Intervals
 # ============================================================================
@@ -140,7 +250,7 @@ def compute_brier_skill_score(y_true: np.ndarray,
 def bootstrap_metric(y_true: np.ndarray,
                     y_score: np.ndarray,
                     metric_fn,
-                    n_bootstrap: int = 1000,
+                    n_bootstrap: int = 5000,
                     confidence_level: float = 0.95,
                     seed: int = 42) -> Dict[str, float]:
     """
@@ -150,7 +260,7 @@ def bootstrap_metric(y_true: np.ndarray,
         y_true: True labels
         y_score: Predicted scores
         metric_fn: Function that takes (y_true, y_score) and returns a scalar
-        n_bootstrap: Number of bootstrap samples
+        n_bootstrap: Number of bootstrap samples (default: 5000)
         confidence_level: Confidence level (e.g., 0.95 for 95% CI)
         seed: Random seed
 
@@ -185,6 +295,174 @@ def bootstrap_metric(y_true: np.ndarray,
         'ci_lower': float(ci_lower),
         'ci_upper': float(ci_upper),
         'n_bootstrap': len(bootstrap_scores)
+    }
+
+
+def monthly_block_bootstrap_metric(y_true: np.ndarray,
+                                   y_score: np.ndarray,
+                                   metric_fn,
+                                   n_months: int,
+                                   cells_per_month: int = 300,
+                                   n_bootstrap: int = 5000,
+                                   confidence_level: float = 0.95,
+                                   seed: int = 42) -> Dict[str, float]:
+    """
+    Compute bootstrap confidence interval using monthly block resampling.
+
+    This method resamples entire months (with replacement) while preserving
+    all spatial cells within each month, providing realistic significance
+    estimates that account for month-to-month variability.
+
+    Args:
+        y_true: True labels, shape [n_months * cells_per_month]
+        y_score: Predicted scores, same shape as y_true
+        metric_fn: Function that takes (y_true, y_score) and returns a scalar
+        n_months: Number of months in the dataset
+        cells_per_month: Number of spatial cells per month (default: 300)
+        n_bootstrap: Number of bootstrap samples (default: 5000)
+        confidence_level: Confidence level (e.g., 0.95 for 95% CI)
+        seed: Random seed
+
+    Returns:
+        Dictionary with 'mean', 'std', 'ci_lower', 'ci_upper', 'n_bootstrap'
+    """
+    rng = np.random.RandomState(seed)
+
+    # Reshape data into monthly blocks
+    y_true_blocks = y_true.reshape(n_months, cells_per_month)
+    y_score_blocks = y_score.reshape(n_months, cells_per_month)
+
+    bootstrap_scores = []
+    for _ in range(n_bootstrap):
+        # Resample months with replacement
+        month_indices = rng.choice(n_months, size=n_months, replace=True)
+
+        # Stack resampled months
+        y_true_boot = np.concatenate([y_true_blocks[i] for i in month_indices])
+        y_score_boot = np.concatenate([y_score_blocks[i] for i in month_indices])
+
+        try:
+            score = metric_fn(y_true_boot, y_score_boot)
+            if not np.isnan(score):
+                bootstrap_scores.append(score)
+        except:
+            continue
+
+    bootstrap_scores = np.array(bootstrap_scores)
+
+    alpha = 1 - confidence_level
+    ci_lower = np.percentile(bootstrap_scores, 100 * alpha / 2)
+    ci_upper = np.percentile(bootstrap_scores, 100 * (1 - alpha / 2))
+
+    return {
+        'mean': float(np.mean(bootstrap_scores)),
+        'std': float(np.std(bootstrap_scores)),
+        'ci_lower': float(ci_lower),
+        'ci_upper': float(ci_upper),
+        'n_bootstrap': len(bootstrap_scores)
+    }
+
+
+def bootstrap_paired_difference(y_true: np.ndarray,
+                                y_score_model: np.ndarray,
+                                y_score_baseline: np.ndarray,
+                                metric_fn,
+                                n_months: int = None,
+                                cells_per_month: int = 300,
+                                n_bootstrap: int = 5000,
+                                seed: int = 42) -> Dict[str, Any]:
+    """
+    Compute paired bootstrap difference test between model and baseline.
+
+    The p-value is computed as the fraction of bootstrap resamples in which
+    the metric difference reverses direction (i.e., baseline >= model).
+
+    If n_months is provided, uses monthly block bootstrap; otherwise uses
+    standard bootstrap.
+
+    Args:
+        y_true: True labels
+        y_score_model: Model predictions
+        y_score_baseline: Baseline predictions
+        metric_fn: Metric function (higher is better)
+        n_months: If provided, use monthly block bootstrap
+        cells_per_month: Number of cells per month (for block bootstrap)
+        n_bootstrap: Number of bootstrap samples (default: 5000)
+        seed: Random seed
+
+    Returns:
+        Dictionary with:
+        - 'observed_diff': Observed metric difference (model - baseline)
+        - 'p_value': Bootstrap p-value
+        - 'ci_lower', 'ci_upper': 95% CI for the difference
+        - 'mean_diff': Mean bootstrap difference
+        - 'n_bootstrap': Number of successful bootstrap samples
+    """
+    # Compute observed difference
+    score_model = metric_fn(y_true, y_score_model)
+    score_baseline = metric_fn(y_true, y_score_baseline)
+    observed_diff = score_model - score_baseline
+
+    rng = np.random.RandomState(seed)
+
+    bootstrap_diffs = []
+
+    if n_months is not None:
+        # Monthly block bootstrap
+        y_true_blocks = y_true.reshape(n_months, cells_per_month)
+        y_model_blocks = y_score_model.reshape(n_months, cells_per_month)
+        y_base_blocks = y_score_baseline.reshape(n_months, cells_per_month)
+
+        for _ in range(n_bootstrap):
+            month_indices = rng.choice(n_months, size=n_months, replace=True)
+
+            y_true_boot = np.concatenate([y_true_blocks[i] for i in month_indices])
+            y_model_boot = np.concatenate([y_model_blocks[i] for i in month_indices])
+            y_base_boot = np.concatenate([y_base_blocks[i] for i in month_indices])
+
+            try:
+                score_m = metric_fn(y_true_boot, y_model_boot)
+                score_b = metric_fn(y_true_boot, y_base_boot)
+                if not (np.isnan(score_m) or np.isnan(score_b)):
+                    bootstrap_diffs.append(score_m - score_b)
+            except:
+                continue
+    else:
+        # Standard bootstrap
+        n = len(y_true)
+        for _ in range(n_bootstrap):
+            indices = rng.choice(n, size=n, replace=True)
+            y_true_boot = y_true[indices]
+            y_model_boot = y_score_model[indices]
+            y_base_boot = y_score_baseline[indices]
+
+            try:
+                score_m = metric_fn(y_true_boot, y_model_boot)
+                score_b = metric_fn(y_true_boot, y_base_boot)
+                if not (np.isnan(score_m) or np.isnan(score_b)):
+                    bootstrap_diffs.append(score_m - score_b)
+            except:
+                continue
+
+    bootstrap_diffs = np.array(bootstrap_diffs)
+
+    # Compute p-value: fraction of samples where baseline >= model
+    # (i.e., difference <= 0)
+    p_value = float(np.mean(bootstrap_diffs <= 0))
+
+    # Compute 95% CI for the difference
+    ci_lower = float(np.percentile(bootstrap_diffs, 2.5))
+    ci_upper = float(np.percentile(bootstrap_diffs, 97.5))
+
+    return {
+        'observed_diff': float(observed_diff),
+        'mean_diff': float(np.mean(bootstrap_diffs)),
+        'p_value': p_value,
+        'ci_lower': ci_lower,
+        'ci_upper': ci_upper,
+        'n_bootstrap': len(bootstrap_diffs),
+        'significant_05': p_value < 0.05,
+        'significant_01': p_value < 0.01
     }
 
 

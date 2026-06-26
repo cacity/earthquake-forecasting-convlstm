@@ -7,31 +7,30 @@ type: software
 title: "eqgrid: Grid-Based Earthquake Forecasting Package"
 abstract: >-
   eqgrid is an open-source, reproducible package for grid-based monthly
-  earthquake probability forecasting. It covers catalog download,
-  deduplication, tensor construction, sliding-window sample generation,
+  earthquake occurrence forecasting. It covers catalog preprocessing,
+  deduplication, ten-channel tensor construction, sliding-window sample generation,
   chronological train/validation/test splitting, ConvLSTM and CNN-based model
-  training, evaluation, calibration, and figure generation for manuscript
-  workflows.
+  training, baseline evaluation, calibration, and manuscript workflows.
 authors:
   - given-names: "Feng"
     family-names: "Gao"
     email: "stark_fng@163.com"
-    affiliation: "Heilongjiang Earthquake Agency; Heilongjiang Deep Seismic and Volcanic Field Scientific Observation and Research Station"
+    affiliation: "Heilongjiang Earthquake Agency, China; Heilongjiang Deep Seismic and Volcanic Field Scientific Observation and Research Station, China"
     orcid: "https://orcid.org/0009-0005-8696-3178"
   - given-names: "Mei"
     family-names: "Li"
     affiliation: "Institute of Earthquake Forecasting, China Earthquake Administration"
   - given-names: "Yongsheng"
     family-names: "Li"
-    affiliation: "Heilongjiang Earthquake Agency"
+    affiliation: "Heilongjiang Earthquake Agency, China"
+  - given-names: "Shuang"
+    family-names: "Liu"
+    affiliation: "Heilongjiang Deep Seismic and Volcanic Field Scientific Observation and Research Station, China"
   - given-names: "Changsheng"
     family-names: "Liu"
-    affiliation: "Heilongjiang Earthquake Agency"
-  - given-names: "Wei"
-    family-names: "Shi"
-    affiliation: "Heilongjiang Earthquake Agency"
-version: "1.0.0"
-date-released: "2026-01-14"
+    affiliation: "Heilongjiang Earthquake Agency, China"
+version: "1.1.0"
+date-released: "2026-06-26"
 doi: "10.5281/zenodo.18241723"
 repository-code: "https://github.com/cacity/earthquake-forecasting-convlstm"
 license: "MIT"
@@ -42,11 +41,13 @@ keywords:
   - ConvLSTM
   - spatiotemporal deep learning
   - seismicity
+  - CENC catalog
+  - aftershock-decay baseline
   - probability calibration
   - reproducible research
 preferred-citation:
   type: article
-  title: "Monthly Grid-Based Earthquake Probability Forecasting in Southwestern China Using ConvLSTM"
+  title: "Benchmarking ConvLSTM Against Spatial-Rate and Aftershock-Decay Baselines for Monthly Gridded Earthquake Forecasting in Southwestern China"
   authors:
     - given-names: "Feng"
       family-names: "Gao"
@@ -54,8 +55,8 @@ preferred-citation:
       family-names: "Li"
     - given-names: "Yongsheng"
       family-names: "Li"
+    - given-names: "Shuang"
+      family-names: "Liu"
     - given-names: "Changsheng"
       family-names: "Liu"
-    - given-names: "Wei"
-      family-names: "Shi"
   year: 2026

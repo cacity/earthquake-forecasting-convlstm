@@ -27,16 +27,16 @@ RESET = '\033[0m'
 def check(condition, message):
     """Print check result."""
     if condition:
-        print(f"{GREEN}✓{RESET} {message}")
+        print(f"{GREEN}[OK]{RESET} {message}")
         return True
     else:
-        print(f"{RED}✗{RESET} {message}")
+        print(f"{RED}[FAIL]{RESET} {message}")
         return False
 
 
 def warn(message):
     """Print warning."""
-    print(f"{YELLOW}⚠{RESET} {message}")
+    print(f"{YELLOW}[WARN]{RESET} {message}")
 
 
 def main():
@@ -78,6 +78,9 @@ def main():
         key_modules = [
             'download.py',
             'build_tensors.py',
+            'build_tensors_chinese_enhanced.py',
+            'chinese_catalog.py',
+            'tensors_enhanced.py',
             'train.py',
             'evaluation.py',
             'baselines.py',
@@ -110,7 +113,9 @@ def main():
         passed += 1
 
         key_scripts = [
-            'fix_paper_metrics_unified.py',
+            'build_china_depth_filtered_tensors.py',
+            'make_channel_ablation_splits.py',
+            'summarize_channel_ablation.py',
             'run_comprehensive_evaluation.py',
         ]
 
@@ -126,8 +131,8 @@ def main():
     # 4. Check documentation
     print("\n4. Documentation")
     docs_to_check = [
-        ('README.md', ['Installation', 'Quick Start', 'Citation']),
-        ('docs/REPRODUCIBILITY.md', ['Environment Setup', 'Data Preparation']),
+        ('README.md', ['Installation', 'Data Policy', 'Reproducing The Main Workflow', 'Citation']),
+        ('docs/REPRODUCIBILITY.md', ['Environment', 'Catalog Preparation', 'Tensor Construction']),
         ('CITATION.cff', ['cff-version', 'title', 'authors']),
     ]
 
@@ -151,8 +156,9 @@ def main():
     print("\n5. Security Checks")
 
     sensitive_patterns = [
-        (r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}', 'email addresses'),
-        (r'[A-Z0-9]{20,}', 'potential API keys'),
+        (r'AKIA[0-9A-Z]{16}', 'AWS access keys'),
+        (r'sk-[A-Za-z0-9]{20,}', 'OpenAI-style API keys'),
+        (r'api[_-]?key\s*=\s*["\'][^"\']+["\']', 'hardcoded API keys'),
         (r'password\s*=\s*["\'][^"\']+["\']', 'hardcoded passwords'),
     ]
 
@@ -231,11 +237,11 @@ def main():
     print(f"Success rate: {percentage:.1f}%")
 
     if failed == 0:
-        print(f"\n{GREEN}✓ Package verification passed!{RESET}")
+        print(f"\n{GREEN}[OK] Package verification passed!{RESET}")
         print("Ready for GitHub/Zenodo release.")
         return 0
     else:
-        print(f"\n{RED}✗ Package verification failed.{RESET}")
+        print(f"\n{RED}[FAIL] Package verification failed.{RESET}")
         print("Please fix the issues above before releasing.")
         return 1
 

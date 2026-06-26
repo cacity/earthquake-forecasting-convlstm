@@ -1,7 +1,7 @@
 """
 Comprehensive evaluation script for earthquake forecasting models.
 
-This script runs the evaluations needed for the EPS submission manuscript:
+This script runs evaluation utilities for the monthly gridded forecasting benchmark:
 1. Bootstrap confidence intervals for metrics
 2. Compare multiple loss functions
 3. Compare multiple calibration methods

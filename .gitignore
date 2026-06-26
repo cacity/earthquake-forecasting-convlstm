@@ -48,14 +48,24 @@ venv.bak/
 *.ckpt
 
 # Data files (too large for git)
-data/raw/
-data/processed/
+data/
 *.csv
 *.npy
 *.npz
+*.parquet
+*.geojson
+*.xlsx
+*.xls
+*.EQT
+*.TXT
+*.docx
+*.docm
+*.pdf
 
 # Model outputs
 outputs/
+src/outputs/
+paper_evaluation_results/
 checkpoints/
 logs/
 runs/
@@ -63,6 +73,7 @@ wandb/
 
 # Results and figures
 results/
+figures/data/
 figures/*.png
 figures/*.pdf
 figures/*.jpg

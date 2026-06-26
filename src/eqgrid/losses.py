@@ -210,7 +210,7 @@ def get_loss_function(loss_name: str, pos_weight: float = 1.0, **kwargs) -> nn.M
         Loss function module
 
     Examples:
-        >>> loss_fn = get_loss_function('bce', pos_weight=83.0)
+        >>> loss_fn = get_loss_function('bce', pos_weight=10.0)
         >>> loss_fn = get_loss_function('focal', alpha=0.25, gamma=2.0)
         >>> loss_fn = get_loss_function('brier')
     """

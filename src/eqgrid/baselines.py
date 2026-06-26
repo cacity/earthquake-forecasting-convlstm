@@ -238,6 +238,157 @@ class AdaptiveKernelDensityBaseline:
         return preds
 
 
+class ETASProxyBaseline:
+    """
+    ETAS-inspired Decaying Aftershock Rate (DAR) baseline.
+
+    Approximates the ETAS model (Ogata 1988) within a monthly gridded framework by
+    combining a smoothed spatial background rate with an Omori-Utsu power-law decay
+    of recent monthly event counts:
+
+        P̂(t,i,j) = α × KDE(i,j) + (1-α)/Z × Σ_{Δ=1}^{L} X_{t-Δ,0,i,j} × Δ^{-p}
+
+    where Z = Σ_{Δ=1}^{L} Δ^{-p}, X_{t-Δ,0,i,j} is the normalized event count at
+    lag Δ months (channel 0 of the input tensor), p is the Omori-Utsu decay exponent,
+    and α is the background weight. The KDE background (Gaussian-smoothed SPR) ensures
+    everywhere-positive probabilities and finite log loss.
+
+    Parameters p and α are tuned on validation PR-AUC.
+
+    Note: Full ETAS maximum-likelihood fitting (Ogata 1988) requires sub-day inter-event
+    times. At monthly gridded resolution, the integrated monthly count is the natural
+    approximation; this baseline captures the core ETAS temporal mechanism (aftershock
+    decay following Omori's law) within the same data framework as the ML models.
+
+    References:
+        Ogata, Y. (1988). Statistical models for earthquake occurrences and residual
+            analysis for point processes. JASA, 83(401), 9–27.
+        Utsu, T., Ogata, Y., & Matsu'ura, R. S. (1995). The centenary of the Omori
+            formula for a decay law of aftershock activity. J. Phys. Earth, 43, 1–33.
+    """
+
+    def __init__(self, p: float = 1.0, alpha: float = 0.3, sigma: float = 0.5):
+        """
+        Args:
+            p: Omori-Utsu decay exponent (weight for lag Δ = Δ^{-p}).
+               Typical range: 0.8–1.2. Tune on validation.
+            alpha: Weight for smoothed background rate (0 = pure triggered, 1 = pure background).
+            sigma: Gaussian smoothing bandwidth for background rate (grid cells).
+        """
+        self.p = p
+        self.alpha = alpha
+        self.sigma = sigma
+        self.background_rates = None  # [H, W], smoothed SPR
+
+    def fit(self, y_train: np.ndarray) -> None:
+        """
+        Fit background rate from training labels.
+
+        Args:
+            y_train: Training labels [N, 1, H, W] or [N, H, W]
+        """
+        if y_train.ndim == 4 and y_train.shape[1] == 1:
+            y_train = y_train[:, 0, :, :]
+
+        raw_rates = y_train.mean(axis=0)  # [H, W]
+        smoothed = gaussian_filter(raw_rates, sigma=self.sigma, mode='constant', cval=0.0)
+        # Small floor ensures finite log loss everywhere (no zero-probability cells)
+        self.background_rates = np.maximum(smoothed, 1e-6)
+
+    def predict(self, x_test: np.ndarray) -> np.ndarray:
+        """
+        Generate predictions using Omori-weighted recent activity + smoothed background.
+
+        Args:
+            x_test: Input features [N, L, C, H, W]
+                   Channel 0 (normalized event count) is used for the triggered component.
+
+        Returns:
+            Predictions [N, 1, H, W]
+        """
+        if x_test.ndim != 5:
+            raise ValueError(f"Expected 5D input [N, L, C, H, W], got {x_test.ndim}D")
+        if self.background_rates is None:
+            raise ValueError("Model not fitted. Call fit() first.")
+
+        n_samples, lookback, _, h, w = x_test.shape
+
+        # Omori-Utsu weights: w(Δ) = Δ^{-p} for Δ = 1, 2, ..., L
+        lags = np.arange(1, lookback + 1, dtype=np.float64)
+        weights = lags ** (-self.p)    # [L]
+        Z = weights.sum()
+
+        # Channel 0: normalized event count in [0, 1]
+        # x_test[:, L-1] = most recent month (lag Δ=1)
+        # x_test[:, L-Δ] = month at lag Δ
+        # Reverse so index 0 = most recent (lag 1), index L-1 = oldest (lag L)
+        counts = x_test[:, :, 0, :, :]                # [N, L, H, W]
+        counts_reversed = counts[:, ::-1, :, :]        # [N, L, H, W], index=lag-1
+
+        # Weighted sum over lookback: triggered[n, h, w] = Σ_Δ counts[n, Δ-1] × Δ^{-p}
+        triggered = np.einsum('nlhw,l->nhw', counts_reversed, weights) / Z  # [N, H, W]
+
+        # Blend background and triggered components
+        preds = (self.alpha * self.background_rates[np.newaxis, :, :]
+                 + (1.0 - self.alpha) * triggered)     # [N, H, W]
+
+        preds = np.clip(preds, 1e-7, 1.0)
+
+        return preds[:, np.newaxis, :, :].astype(np.float32)  # [N, 1, H, W]
+
+
+def tune_etas_proxy(y_train: np.ndarray,
+                    x_val: np.ndarray,
+                    y_val: np.ndarray,
+                    p_grid: Optional[list] = None,
+                    alpha_grid: Optional[list] = None) -> dict:
+    """
+    Grid-search optimal (p, alpha) for ETASProxyBaseline on validation PR-AUC.
+
+    Args:
+        y_train: Training labels [N, 1, H, W]
+        x_val: Validation features [N, L, C, H, W]
+        y_val: Validation labels [N, 1, H, W]
+        p_grid: Omori exponent values to try (default: [0.8, 0.9, 1.0, 1.1, 1.2])
+        alpha_grid: Background weight values to try (default: [0.1, 0.2, 0.3, 0.5, 0.7])
+
+    Returns:
+        dict with 'best_p', 'best_alpha', 'best_pr_auc', 'grid_results'
+    """
+    from .evaluation import compute_pr_auc
+
+    if p_grid is None:
+        p_grid = [0.8, 0.9, 1.0, 1.1, 1.2]
+    if alpha_grid is None:
+        alpha_grid = [0.1, 0.2, 0.3, 0.5, 0.7]
+
+    best_pr = -1.0
+    best_p = 1.0
+    best_alpha = 0.3
+    grid_results = []
+
+    y_val_flat = y_val.reshape(-1)
+
+    for p in p_grid:
+        for alpha in alpha_grid:
+            model = ETASProxyBaseline(p=p, alpha=alpha)
+            model.fit(y_train)
+            preds = model.predict(x_val)
+            pr = compute_pr_auc(y_val_flat, preds.reshape(-1))
+            grid_results.append({'p': p, 'alpha': alpha, 'pr_auc': pr})
+            if pr > best_pr:
+                best_pr = pr
+                best_p = p
+                best_alpha = alpha
+
+    return {
+        'best_p': best_p,
+        'best_alpha': best_alpha,
+        'best_pr_auc': best_pr,
+        'grid_results': grid_results,
+    }
+
+
 def compare_baselines(y_train: np.ndarray,
                      x_test: np.ndarray,
                      y_test: np.ndarray,
