@@ -10,7 +10,7 @@ Authors: Feng Gao, Mei Li, Yongsheng Li, Shuang Liu, and Changsheng Liu.
 
 Manuscript status: prepared for submission to *Seismological Research Letters*.
 
-Zenodo DOI: [10.5281/zenodo.20926491](https://doi.org/10.5281/zenodo.20926491).
+Zenodo DOI: [10.5281/zenodo.20964949](https://doi.org/10.5281/zenodo.20964949).
 
 ## Overview
 
@@ -185,8 +185,8 @@ If you use this code, cite this repository and the accompanying manuscript:
   author = {Gao, Feng and Li, Mei and Li, Yongsheng and Liu, Shuang and Liu, Changsheng},
   title = {eqgrid: Grid-Based Earthquake Forecasting Package},
   year = {2026},
-  version = {V2.0.0},
-  doi = {10.5281/zenodo.20926491},
+  version = {V2.0.1},
+  doi = {10.5281/zenodo.20964949},
   url = {https://github.com/cacity/earthquake-forecasting-convlstm}
 }
 ```
