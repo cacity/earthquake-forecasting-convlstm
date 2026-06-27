@@ -1,4 +1,4 @@
-"""Build 10-channel China tensors with corrected depth filtering.
+"""Build 10-channel China tensors for the depth-filtered CENC workflow.
 
 This script is intended for the CENC catalog workflow used by the manuscript.
 It applies two catalog rules before tensor construction:

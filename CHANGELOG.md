@@ -8,7 +8,7 @@ All notable changes to this project are documented here.
 
 - Updated the public repository to match the current SRL-targeted benchmark manuscript.
 - Switched the documented workflow from the older USGS three-channel example to the CENC ten-channel Southwestern China workflow.
-- Added public preprocessing support for the corrected depth-filtered CENC workflow through `scripts/build_china_depth_filtered_tensors.py`.
+- Added public preprocessing support for the depth-filtered CENC workflow, with zero-depth entries treated as unspecified-depth records, through `scripts/build_china_depth_filtered_tensors.py`.
 - Added channel-ablation helper scripts for count-only and activity-channel comparisons.
 - Updated README, reproducibility notes, citation metadata, package metadata, and default configuration.
 - Clarified that raw catalogs, processed tensors, model checkpoints, prediction arrays, Word files, and evaluation outputs are not distributed through GitHub.

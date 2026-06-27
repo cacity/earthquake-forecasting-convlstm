@@ -6,7 +6,11 @@ Official code repository for:
 
 **Benchmarking ConvLSTM Against Spatial-Rate and Aftershock-Decay Baselines for Monthly Gridded Earthquake Forecasting in Southwestern China**
 
-Manuscript target journal: *Seismological Research Letters*.
+Authors: Feng Gao, Mei Li, Yongsheng Li, Shuang Liu, and Changsheng Liu.
+
+Manuscript status: prepared for submission to *Seismological Research Letters*.
+
+Zenodo DOI: [10.5281/zenodo.20926491](https://doi.org/10.5281/zenodo.20926491).
 
 ## Overview
 
@@ -75,7 +79,7 @@ python scripts/build_china_depth_filtered_tensors.py ^
   --depth-max 70
 ```
 
-This step applies the manuscript catalog policy: fixed-width EQT records before 2009 are converted from 0.1 km depth units to kilometers; table/parquet records are used from 2009 onward; duplicate events are removed; records with depth equal to 0 km are retained; events with known depth greater than 70 km are excluded.
+This step applies the manuscript catalog policy: records are harmonized into a common `depth_km` field; table/parquet records are used from 2009 onward; duplicate events are removed; records with depth equal to 0 km are retained as unspecified-depth entries for occurrence counts and labels; and events with known depth greater than 70 km are excluded.
 
 ### 2. Create Supervised Windows
 
@@ -155,7 +159,7 @@ DAR is an Omori-decay baseline, not a full ETAS maximum-likelihood implementatio
 
 ## Manuscript-Scale Reference Values
 
-For the corrected depth-filtered CENC catalog used in the manuscript, the final retained catalog contains 3,814 duplicate-removed M>=4.0 events. The grid has 195 cells, and the 2023-2025 test set contains 7,020 cell-months with 109 positive cell-months.
+For the depth-filtered CENC catalog used in the manuscript, with zero-depth entries treated as unspecified-depth records, the final retained catalog contains 3,814 duplicate-removed M>=4.0 events. The grid has 195 cells, and the 2023-2025 test set contains 7,020 cell-months with 109 positive cell-months.
 
 The benchmark does not show clear ConvLSTM superiority. In the manuscript run, ConvLSTM achieved ROC-AUC about 0.640 and PR-AUC about 0.041. DAR had the highest PR-AUC, while KDE had the highest ROC-AUC and the lowest clipped log loss.
 
