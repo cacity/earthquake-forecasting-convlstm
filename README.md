@@ -12,6 +12,18 @@ Manuscript status: prepared for submission to *Seismological Research Letters*.
 
 Zenodo DOI: [10.5281/zenodo.20964949](https://doi.org/10.5281/zenodo.20964949).
 
+## Independent Reproducibility and Pre-Submission QA
+
+Need an evidence-based check of a scientific manuscript, code repository, figures, and derived results before submission? I offer fixed-scope technical audits for research teams, with an emphasis on reproducibility, numerical consistency, figure/table traceability, and submission-package QA.
+
+- Pre-submission red-flag audit — **USD 399**, 3 business days
+- Reproducibility sprint — **USD 1,499**, 7–10 business days
+- Full submission-package QA — **USD 2,999**, 10–15 business days
+
+See [Research Audit Services](RESEARCH_AUDIT_SERVICES.md) for scope, deliverables, intake, payment gates, and research-integrity boundaries. Initial enquiries should contain no restricted data or credentials.
+
+Contact: **stark fng** — [gf7823332@gmail.com](mailto:gf7823332@gmail.com)
+
 ## Overview
 
 This repository contains the public code for a leakage-controlled benchmark of monthly gridded earthquake occurrence forecasting in Southwestern China. The workflow converts an earthquake catalog into monthly 1 degree by 1 degree tensors, builds 12-month supervised windows, trains a ConvLSTM forecaster, and evaluates it against spatial-rate and aftershock-decay baselines.
