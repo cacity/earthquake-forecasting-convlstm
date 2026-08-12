@@ -22,7 +22,7 @@ Need an evidence-based check of a scientific manuscript, code repository, figure
 
 See [Research Audit Services](RESEARCH_AUDIT_SERVICES.md) for scope, deliverables, intake, payment gates, and research-integrity boundaries. Initial enquiries should contain no restricted data or credentials.
 
-Contact: **stark fng** — [gf7823332@gmail.com](mailto:gf7823332@gmail.com)
+Contact: **stark fng** — open a [public, no-email research-audit interest Issue](https://github.com/cacity/earthquake-forecasting-convlstm/issues/new?template=research-audit-interest.yml). It is an initial scope check, not an order or payment request. Do not post manuscripts, unpublished results, restricted data, credentials, customer data, or personal data.
 
 ## Overview
 
