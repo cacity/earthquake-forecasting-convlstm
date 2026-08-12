@@ -2,7 +2,7 @@
 
 Provider: **stark fng**
 
-Contact: [gf7823332@gmail.com](mailto:gf7823332@gmail.com)
+Initial contact: [public, no-email research-audit interest Issue](https://github.com/cacity/earthquake-forecasting-convlstm/issues/new?template=research-audit-interest.yml)
 
 This is a technical audit service for research teams that already have a manuscript or a working analysis. It checks whether the manuscript, code, derived results, figures, tables, supplementary material, and submission statements tell the same verifiable story.
 
@@ -65,11 +65,10 @@ Payment: 50% deposit to start, 25% when the issue ledger is delivered, and 25% b
 
 ## Safe Initial Enquiry
 
-Email the following non-sensitive summary only. Do not attach raw data, patient information, passwords, tokens, unredacted client data, confidential manuscripts, or restricted datasets in the first message.
+Open the public interest form and provide only the non-sensitive scope summary it requests. This is not an order, reservation, invoice, or payment obligation. Do not paste or link raw data, patient information, passwords, tokens, unredacted client data, confidential manuscripts, unpublished results, or restricted datasets in a public Issue. Requests and follow-ups are not handled by email.
 
 ```text
 Name / team:
-Contact email:
 Research field:
 Target journal or conference, if selected:
 Stage: draft / pre-submission / revision / transfer
