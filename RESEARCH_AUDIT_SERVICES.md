@@ -1,6 +1,7 @@
 # Independent Research Reproducibility and Pre-Submission QA
 
-Provider: **stark fng**  
+Provider: **stark fng**
+
 Contact: [gf7823332@gmail.com](mailto:gf7823332@gmail.com)
 
 This is a technical audit service for research teams that already have a manuscript or a working analysis. It checks whether the manuscript, code, derived results, figures, tables, supplementary material, and submission statements tell the same verifiable story.
