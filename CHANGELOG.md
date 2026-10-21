@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## Unreleased - 2026-10-21
+
+### Changed
+
+- Updated the target journal in README and package metadata to Annals of Geophysics; manuscript submission remains pending.
+- This metadata update does not change the scientific code or include the October 2026 ETAS revision.
+
 ## [1.1.0] - 2026-06-26
 
 ### Changed

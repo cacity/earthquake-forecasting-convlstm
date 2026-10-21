@@ -8,7 +8,9 @@ Official code repository for:
 
 Authors: Feng Gao, Mei Li, Yongsheng Li, Shuang Liu, and Changsheng Liu.
 
-Manuscript status: prepared for submission to *Seismological Research Letters*.
+Manuscript status: prepared for submission to *Annals of Geophysics*.
+
+This journal-name update leaves the June 2026 code release unchanged; the October 2026 ETAS revision is not included in this release.
 
 Zenodo DOI: [10.5281/zenodo.20964949](https://doi.org/10.5281/zenodo.20964949).
 
