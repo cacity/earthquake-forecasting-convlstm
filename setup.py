@@ -22,7 +22,7 @@ setup(
         "Bug Tracker": "https://github.com/cacity/earthquake-forecasting-convlstm/issues",
         "Documentation": "https://github.com/cacity/earthquake-forecasting-convlstm",
         "Source Code": "https://github.com/cacity/earthquake-forecasting-convlstm",
-        "Manuscript": "Submitted to Seismological Research Letters",
+        "Manuscript": "Prepared for submission to Annals of Geophysics",
     },
     license="MIT",
     packages=find_packages(where="src"),
